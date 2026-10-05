@@ -19,3 +19,28 @@ A hands-on troubleshooting lab on a Debian VM: nginx refuses to start even thoug
 
 ## Method
 Baseline, introduce the fault, gather evidence, find the root cause, fix, verify, document. The fault was introduced deliberately in an isolated lab VM. This is a troubleshooting exercise, not an attack.
+## Evidence
+
+**1. Baseline: nginx owns port 80 and responds with 200 OK**
+![Baseline](screenshots/1-baseline.PNG)
+
+**2. nginx start fails**
+![Start failed](screenshots/2-start-failed.PNG)
+
+**3. Service status: config test passed, start step failed**
+![Status failed](screenshots/3-status-failed.PNG)
+
+**4. Journal: bind() to 0.0.0.0:80 failed (98: Address already in use)**
+![Journal error](screenshots/4-journal-error.PNG)
+
+**5. nginx -t passes: the config is not the problem**
+![nginx -t OK](screenshots/5-nginx-t-ok.PNG)
+
+**6. Culprit found: python3 (PID 2944) owns port 80**
+![Culprit found](screenshots/6-culprit-found.PNG)
+
+**7. Conflicting process stopped, port 80 free**
+![Port freed](screenshots/7-port-freed.PNG)
+
+**8. Recovery: nginx back on port 80, 200 OK from nginx**
+![Recovered](screenshots/8-recovered.PNG)
